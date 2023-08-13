@@ -11,6 +11,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        text-align: center;
 
         width: 100%;
         max-width: 1300px;
@@ -21,6 +22,9 @@
         .buttons-div {
             margin-top: 50px;
             display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
             gap: 50px;
 
             .navigation-button {
