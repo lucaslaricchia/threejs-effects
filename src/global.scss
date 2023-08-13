@@ -1,0 +1,42 @@
+:root {
+    //write colors for an website that uses an dark theme, colors of blue are apreciated.
+    --color-primary: #55c57a;
+    --color-primary-light: #7ed56f;
+    --color-primary-dark: #28b485;
+  
+    --color-secondary: #4ea8de;
+    --color-secondary-light: #6fbfff;
+    --color-secondary-dark: #3e91cc;
+  
+    --color-accent: #ff7730;
+    --color-accent-light: #ffa27b;
+    --color-accent-dark: #e65f00;
+  
+    --color-bg: #0a1c3b;
+  
+    --color-text: #fff;
+    --color-text-light: #f2f2f2;
+    --color-text-dark: #ccc;
+
+    --shadow-dark: 0 2rem 6rem rgba(0, 0, 0, 0.3);
+    --shadow-light: 0 2rem 5rem rgba(0, 0, 0, 0.06);
+    --shadow-light-2: 0 1rem 2rem rgba(0, 0, 0, 0.06);
+    --shadow-light-3: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+
+    --line: 1px solid var(--color-grey-light-2);
+    --line-inset: 1px solid var(--color-grey-light-1);
+
+    --border-radius: 0.3rem;
+    --border-radius-big: 0.8rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-bg);
+}
