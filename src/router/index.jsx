@@ -11,7 +11,7 @@ const router = createBrowserRouter([
         path: "/flame-effect",
         element: <FlameEffect />
     }
-]);
+], { basename: "/threejs-effects" });
 
 export default function Router() {
     return (
