@@ -4,7 +4,7 @@ import FlameEffect from "../pages/FlameEffect/FlameEffect";
 
 export default function Router() {
     return (
-        <HashRouter basename="/threejs-effects">
+        <HashRouter>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/flame-effect" element={<FlameEffect />} />
