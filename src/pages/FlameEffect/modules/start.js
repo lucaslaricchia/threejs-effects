@@ -1,5 +1,6 @@
 import { init } from './init';
 import { Clock } from 'three';
+
 let options = {
     exposure: 2.8,
     bloomStrength: 3.5,
@@ -14,22 +15,14 @@ let options = {
 
 window.options = options;
 window.uniforms = [];
-let flameGroup;
 
 export function start() {
-    flameGroup = init();
+    init();
     loop();
 }
 
 function loop(clock = new Clock()) {
     renderer.render(scene, camera);
     composer.render();
-    const delta = clock.getDelta();
-    window.uniforms.forEach(uniform => {
-        uniform.time.value -=  delta / 12;
-    });
-    if (flameGroup.position.y >= 0) {
-        flameGroup.position.y -= delta * 1;
-    }
     requestAnimationFrame(() => loop(clock));
 }

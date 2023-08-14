@@ -7,7 +7,7 @@ export default function Router() {
         <HashRouter>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/flame-effect" element={<FlameEffect />} />
+                <Route path="/meteor-effect" element={<FlameEffect />} />
             </Routes>
         </HashRouter>
     )

@@ -11,5 +11,5 @@ export function init() {
     createRenderer();
     createOrbitControl();
     // createTerrain();
-    return createFlame();
+    createFlame();
 }

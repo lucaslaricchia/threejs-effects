@@ -9,8 +9,8 @@ function Home() {
       <div className="home-wrapper">
         <h1>Welcome to the Effects Playground</h1>
         <div className="buttons-div">
-          <button className="navigation-button" onClick={() => navigate("/flame-effect")}>
-            Flame Effect
+          <button className="navigation-button" onClick={() => navigate("/meteor-effect")}>
+            Meteor Effect
           </button>
           <button className="navigation-button">
             Next Effect

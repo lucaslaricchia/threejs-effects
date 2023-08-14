@@ -7,7 +7,7 @@ export function createCamera() {
         1,
         1000
     );
-    camera.position.set(16.855729119467718, 17.281954620123585, 14.687406233597498);
+    camera.position.set(19.855729119467718, 20, 19.687406233597498);
 
     window.camera = camera;
 }

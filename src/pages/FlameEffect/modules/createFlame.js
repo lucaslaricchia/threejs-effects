@@ -8,7 +8,7 @@ import { vertex } from "../shaders/vertex";
 import perlinNoise from "../assets/water-min.jpg";
 import noise from "../assets/noise9.jpg";
 import sparkleNoise from "../assets/sparkleNoise.jpg";
-import { addToUpdateList } from '../../../utils/addToUpdateList';
+import gsap from 'gsap';
 
 export function createFlame() {
     const group = new THREE.Group();
@@ -50,7 +50,14 @@ export function createFlame() {
         mesh.scale.set(1.5, 1.7, 1.5);
 
         group.add(mesh);
-        addToUpdateList(uniforms)
+
+        //animate the shader time
+        gsap.to(uniforms.time, {
+            value: -20,
+            duration: 100,
+            repeat: -1,
+        })
+        // addToUpdateList(uniforms)
     }
 
     function createConeOfFlames() {
@@ -91,7 +98,13 @@ export function createFlame() {
         mesh.position.set(-4.85, 0, 0);
         mesh.scale.set(2, 2, 2);
         group.add(mesh);
-        addToUpdateList(uniforms)
+
+         //animate the shader time
+        gsap.to(uniforms.time, {
+            value: -20,
+            duration: 100,
+            repeat: -1,
+        })
     }
 
     function fireBall() {
@@ -139,7 +152,13 @@ export function createFlame() {
         mesh.scale.set(0.78, 0.78, 0.78);
         mesh.position.set(0, 0, 0);
         group.add(mesh);
-        addToUpdateList(uniforms)
+
+         //animate the shader time
+        gsap.to(uniforms.time, {
+            value: -20,
+            duration: 100,
+            repeat: -1,
+        })
     }
 
     function createTargetFlame() {
@@ -180,7 +199,24 @@ export function createFlame() {
         mesh.position.set(0, 0, 0);
         mesh.scale.set(2, 1, 2);
         scene.add(mesh);
-        addToUpdateList(uniforms)
+        gsap.to(uniforms.time, {
+            value: 20,
+            duration: 100,
+            repeat: -1,
+        })
+        gsap.to(mesh.scale, {
+            delay: 2.5,
+            duration: 0.5,
+            keyframes: [
+                { x: 2, y: 1, z: 2 },    // Starting scale (2, 1, 2)
+                { x: 2.5, y: 1.5, z: 2.5 }, // Grow
+                { x: 3, y: 2, z: 3 },      // Grow more
+                { x: 4.5, y: 3, z: 4.5 },  // Maximum explosion size
+                { x: 1, y: 0.5, z: 1 },    // Diminish
+                { x: 0, y: 0, z: 0 }       // Disappear
+            ],
+            ease: "power2.out",
+        })
     }
 
     createSmokeAround();
@@ -188,10 +224,36 @@ export function createFlame() {
     fireBall();
     createTargetFlame();
     group.rotateZ(-Math.PI / 2)
-    group.position.y = 20;
+    group.position.y = 30;
     group.scale.set(2, 2, 2);
 
     scene.add(group);
-    return group;
+
+    const explosionDelay = 2.5;
+
+    //descending animation
+    gsap.to(group.position, {
+        duration: explosionDelay,
+        y: 0,
+        ease: "power2.in",
+        onComplete: () => {
+            group.remove(group.children[0]);
+            group.remove(group.children[0]);
+        },
+    })
+
+    gsap.to(group.children[2].scale, {
+        delay: explosionDelay,
+        duration: 0.5,
+        keyframes: [
+            { x: 0.78, y: 0.78, z: 0.78 },
+            { x: 0.78, y: 3, z: 3 },
+            {x: 0.78, y: 5, z: 5},
+            {x: 0.78, y: 3, z: 3},
+            { x: 0.78, y: 0.78, z: 0.78 },
+            { x: 0, y: 0, z: 0 }
+        ],
+        ease: "power2.out",
+    })
 }
 
