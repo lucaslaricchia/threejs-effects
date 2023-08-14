@@ -26,7 +26,7 @@ function loop(clock = new Clock()) {
     composer.render();
     const delta = clock.getDelta();
     window.uniforms.forEach(uniform => {
-        uniform.time.value +=  delta / 12;
+        uniform.time.value -=  delta / 12;
     });
     if (flameGroup.position.y >= 0) {
         flameGroup.position.y -= delta * 1;
