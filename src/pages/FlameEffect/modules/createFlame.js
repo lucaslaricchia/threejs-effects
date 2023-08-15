@@ -9,6 +9,7 @@ import perlinNoise from "../assets/water-min.jpg";
 import noise from "../assets/noise9.jpg";
 import sparkleNoise from "../assets/sparkleNoise.jpg";
 import gsap from 'gsap';
+import { EffectPass, ShockWaveEffect } from 'postprocessing';
 
 export function createFlame() {
     const group = new THREE.Group();
@@ -37,7 +38,6 @@ export function createFlame() {
         const geometry = new THREE.CylinderGeometry(1.11, 0, 5.3, 50, 50, true);
         const material = new THREE.ShaderMaterial({
             uniforms,
-            // wireframe:true,
             vertexShader: vertcylinder,
             fragmentShader: fragcylinder,
             transparent: true,
@@ -57,7 +57,6 @@ export function createFlame() {
             duration: 100,
             repeat: -1,
         })
-        // addToUpdateList(uniforms)
     }
 
     function createConeOfFlames() {
@@ -85,7 +84,6 @@ export function createFlame() {
         const geometry = new THREE.CylinderGeometry(1, 0, 5.3, 50, 50, true);
         const material = new THREE.ShaderMaterial({
             uniforms,
-            // wireframe:true,
             vertexShader: vertflame,
             fragmentShader: fragflame,
             transparent: true,
@@ -98,8 +96,8 @@ export function createFlame() {
         mesh.position.set(-4.85, 0, 0);
         mesh.scale.set(2, 2, 2);
         group.add(mesh);
-
-         //animate the shader time
+        bloomEffect.selection.toggle(mesh);
+        //animate the shader time
         gsap.to(uniforms.time, {
             value: -20,
             duration: 100,
@@ -152,8 +150,8 @@ export function createFlame() {
         mesh.scale.set(0.78, 0.78, 0.78);
         mesh.position.set(0, 0, 0);
         group.add(mesh);
-
-         //animate the shader time
+        bloomEffect.selection.toggle(mesh);
+        //animate the shader time
         gsap.to(uniforms.time, {
             value: -20,
             duration: 100,
@@ -186,7 +184,6 @@ export function createFlame() {
         const geometry = new THREE.CylinderGeometry(3, 3, 3, 50, 50, true);
         const material = new THREE.ShaderMaterial({
             uniforms,
-            // wireframe:true,
             vertexShader: vertflame,
             fragmentShader: fragflame,
             transparent: true,
@@ -215,8 +212,24 @@ export function createFlame() {
                 { x: 1, y: 0.5, z: 1 },    // Diminish
                 { x: 0, y: 0, z: 0 }       // Disappear
             ],
+            onStart: () => {
+                explode();
+            },
             ease: "power2.out",
         })
+    }
+
+    function explode() {
+        const shockWaveEffect = new ShockWaveEffect(camera, new THREE.Vector3(0, 0, 0), {
+            speed: 1.25,
+            maxRadius: 0.5,
+            waveSize: 0.2,
+            amplitude: 0.05
+        });
+        const effectPass = new EffectPass(camera, shockWaveEffect);
+        composer.addPass(effectPass);
+
+        shockWaveEffect.explode();
     }
 
     createSmokeAround();
@@ -248,8 +261,8 @@ export function createFlame() {
         keyframes: [
             { x: 0.78, y: 0.78, z: 0.78 },
             { x: 0.78, y: 3, z: 3 },
-            {x: 0.78, y: 5, z: 5},
-            {x: 0.78, y: 3, z: 3},
+            { x: 0.78, y: 5, z: 5 },
+            { x: 0.78, y: 3, z: 3 },
             { x: 0.78, y: 0.78, z: 0.78 },
             { x: 0, y: 0, z: 0 }
         ],

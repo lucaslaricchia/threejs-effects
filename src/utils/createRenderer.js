@@ -1,8 +1,5 @@
-import { Layers, Vector2, WebGLRenderer } from "three";
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { SelectiveBloomEffect, EffectComposer, EffectPass, BlendFunction, RenderPass, DepthPickingPass, } from "postprocessing";
+import { WebGLRenderer } from "three";
 
 export function createRenderer() {
     const renderer = new WebGLRenderer({
@@ -13,19 +10,22 @@ export function createRenderer() {
     renderer.setPixelRatio(window.devicePixelRatio);
     window.renderer = renderer;
 
-    const renderScene = new RenderPass(window.scene, window.camera);
+    const renderPass = new RenderPass(scene, camera);
 
-    const bloomPass = new UnrealBloomPass(new Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
-    bloomPass.threshold = 0;
-    bloomPass.strength = 0.5;
-    bloomPass.radius = 0.39;
+    const bloomEffect = new SelectiveBloomEffect(scene, camera, {
+        blendFunction: BlendFunction.ADD,
+        mipmapBlur: true,
+        luminanceThreshold: 0,
+        luminanceSmoothing: 0.2,
+        intensity: 6,
+    });
 
-    const outputPass = new OutputPass();
-
+    const effectPass = new EffectPass(camera, bloomEffect);
     const composer = new EffectComposer(renderer);
-    composer.addPass(renderScene);
-    composer.addPass(bloomPass);
-    composer.addPass(outputPass);
-
+    const depthPickingPass = new DepthPickingPass();
+    composer.addPass(renderPass);
+    composer.addPass(depthPickingPass);
+    composer.addPass(effectPass);
+    window.bloomEffect = bloomEffect;
     window.composer = composer;
 }

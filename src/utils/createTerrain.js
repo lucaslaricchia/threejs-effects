@@ -6,11 +6,11 @@ export function createTerrain() {
     const groundTexture = new TextureLoader().load(checkersTexture);
     groundTexture.wrapS = groundTexture.wrapT = RepeatWrapping;
     groundTexture.repeat.set(8, 8);
-    const groundMaterial = new MeshBasicMaterial({ map: groundTexture  });
+    const groundMaterial = new MeshBasicMaterial({ map: groundTexture });
     const ground = new Mesh(groundGeometry, groundMaterial);
     ground.receiveShadow = true;
     ground.name = "ground";
-    ground.rotateX(-Math.PI / 2)
+    ground.rotateX(-Math.PI / 2);
 
     scene.add(ground);
 }
